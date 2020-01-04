@@ -191,6 +191,11 @@ $wsdlUrl        = 'https://prime-dsa-devctr.docusign.net:8080/sapiws/dss.asmx?WS
      }
      public function Downloadfacture(Client $client, Commande $commande)
      {
+
+        $ch = curl_init();
+$certificate_location = "‪C:/wamp64/bin/php/php7.3.1/extras/ssl/cacert.pem";
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $certificate_location);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $certificate_location);
         $client = new DocuSign\Rest\Client([
             'username'       => "ghouma saifeddine",
             'password'       => "cb7mGYMtTCyVaCpv",
