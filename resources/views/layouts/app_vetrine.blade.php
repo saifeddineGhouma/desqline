@@ -17,11 +17,11 @@
 
 
 
-<link href="css/plugins.css" rel="stylesheet">
+<link href="{{asset('css/plugins.css')}}" rel="stylesheet">
 
-<link href="css/style.css" rel="stylesheet">
+<link href="{{asset('css/style.css')}}" rel="stylesheet">
 
-<link href="css/responsive.css" rel="stylesheet">
+<link href="{{asset('css/responsive.css')}}" rel="stylesheet">
 
 <style>
 

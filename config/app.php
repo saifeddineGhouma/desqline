@@ -152,6 +152,7 @@ return [
          */
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        LaravelDocusign\DocusignServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -213,6 +214,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'DocuSign'  => LaravelDocusign\Facades\DocuSign::class,
+
 
 
     ],

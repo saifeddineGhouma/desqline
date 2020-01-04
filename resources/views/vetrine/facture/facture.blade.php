@@ -159,9 +159,9 @@ Du lundi au vendredi : 8h - 20h
 						<div class="col-12 col-sm-6">
 						  <div class="b-2 p-20 mb-10 bg-light">
 							<p class="mb-10"><b>Paiement methodes</b></p>
-							<img src="{{asset("/images/visa.png")}}" alt="Visa">
-							<img src="{{asset("/images/mastercard.png")}}" alt="Mastercard">
-							<img src="{{asset("/images/american-express.png")}}" alt="American Express">
+							<img src="{{asset('/images/visa.png')}}" alt="Visa">
+							<img src="{{asset('/images/mastercard.png')}}" alt="Mastercard">
+							<img src="{{asset('/images/american-express.png')}}" alt="American Express">
 					
 
 							  <p class="text-muted well well-sm no-shadow mt-20 mb-0">

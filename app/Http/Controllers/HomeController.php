@@ -11,7 +11,7 @@ use App\Agent;
 use App\Commande;
 use App\Client;
 use PDF;
-
+use DocuSign;
 class HomeController extends Controller
 {
     /**
@@ -140,10 +140,10 @@ class HomeController extends Controller
          //  $pdf = PDF::loadView('facture', compact('commande', 'client'));
          // $message->attachData($pdf->output(), "invoice.pdf");
  
-         Mail::send('factureEmail', $data, function ($message) use ($request) {
+        /* Mail::send('factureEmail', $data, function ($message) use ($request) {
              $message->from('soutesting99@gmail.com');
              $message->to($request['email'])->subject('Facture');
-         });
+         });*/
  
  
  
@@ -155,9 +155,93 @@ class HomeController extends Controller
      {
          return view('vetrine.facture.facture')->withClient($client)->withCommande($commande);
      }
+     public function docsign($name,$mail,$pdf)
+
+     {
+        $client = new DocuSign\Rest\Client([
+            'username'       => "ghouma saifeddine",
+            'password'       => "cb7mGYMtTCyVaCpv",
+            'integrator_key' => "6e8c8480-3624-4ee8-b9f6-0daecd2de36b",
+            'host'           => "https://demo.docusign.net/restapi"
+        ]);
+        $signer = DocuSign::signer([
+            'name'  => $name,
+            'email' => $mail
+        ]);
+        // Custom Values
+$filePath       = $pdf;   // File to sign
+$fileMimeType   = 'application/pdf';    // File MIME type
+         // CoSign account password
+$domain         = '';                   // CoSign account domain
+$sigPageNum     = 1;                    // Create signature on the first page
+$sigX           = 145;                  // Signature field X location
+$sigY           = 125;                  // Signature field Y location
+$sigWidth       = 160;                  // Signature field width
+$sigHeight      = 45;                   // Signature field height
+$timeFormat     = 'hh:mm:ss';           // The display format of the time
+$dateFormat     = 'dd/MM/yyyy';         // The display format of the date
+$appearanceMask = 11;                   // Elements to display on the signature field
+                                        // (11 = Graphical image + Signer name + Time)
+$signatureType  = 'http://arx.com/SAPIWS/DSS/1.0/signature-field-create-sign';  
+    // The actual operation of the Sign Request function
+$wsdlUrl        = 'https://prime-dsa-devctr.docusign.net:8080/sapiws/dss.asmx?WSDL';    
+    // URL to the WSDL file
+     
+     
+     }
      public function Downloadfacture(Client $client, Commande $commande)
      {
+        $client = new DocuSign\Rest\Client([
+            'username'       => "ghouma saifeddine",
+            'password'       => "cb7mGYMtTCyVaCpv",
+            'integrator_key' => "6e8c8480-3624-4ee8-b9f6-0daecd2de36b",
+            'host'           => "https://demo.docusign.net/restapi"
+        ]);
+      //  $client = DocuSign::create();
+
          $pdf = PDF::loadView('vetrine.facture.facture_mail', compact('client', 'commande'));
+         try {
+            return $client->envelopes->createEnvelope($client->envelopeDefinition([
+                'status'        => 'sent',
+                'email_subject' => '[DocuSign PHP SDK] - Signature Request Sample',
+                'recipients'    => $client->recipients([
+                    'signers' => [
+                        $client->signer([
+                            'name'           => 'John Doe',
+                            'email'          => 'mytestemail@gmail.com',
+                            'client_user_id' => 1,
+                            'role_name'      => 1,
+                            'recipient_id'   => 1,
+                            'tabs'           => $client->tabs([
+                                'sign_here_tabs' => [
+                                    $client->signHere([
+                                        'anchor_string'                => 'Sign Here:',
+                                        'anchor_x_offset'              => '116',
+                                        'anchor_y_offset'              => '-9',
+                                        'anchor_ignore_if_not_present' => false,
+                                        'anchor_units'                 => 'pixels',
+                                        'recipient_id'                 => 1,
+                                    ]),
+                                ],
+                            ]),
+                        ]),
+                    ],
+                ]),
+                'documents'     => [
+                    $client->document([
+                        'document_base64' => base64_encode($pdf->stream()),
+                        'name'            => 'test',
+                        'document_id'     => 1,
+                        'file_extension'  => 'pdf',
+                    ]),
+                ],
+            ]));
+        } catch (Exception $e) {
+            dd($e->getResponseBody());
+        }
+    
+    
          return $pdf->download('facture.pdf');
      }
+   
 }

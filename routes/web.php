@@ -64,7 +64,7 @@ Route::prefix('admin')->group(function () {
 
 
 
-
+Route::get('/docsign','HomeController@docsign');
 
 
 

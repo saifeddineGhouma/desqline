@@ -45,4 +45,4 @@
 </section>
 @include('includes.footer')
 
-@endsction
+@endsection
